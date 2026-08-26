@@ -1,0 +1,39 @@
+{
+  "_comment": "Заполни своими почтами и передай как tools/benchmark/mail.json или mail.json в корне. Для live авторег/OTP. Пока НЕ коммить реальные пароли — добавь в .gitignore если нужно. Пример 3 почты под 3 профиля DE/US/RU.",
+  "hermes_DE_mail": {
+    "host": "imap.mail.ru",
+    "port": 993,
+    "ssl": true,
+    "user": "agent_de@mail.ru",
+    "pass": "app-password-or-real",
+    "folder": "INBOX",
+    "subject_filter": "confirm",
+    "otp_regex": "\\b\\d{6}\\b",
+    "link_regex": "https?://[^\\s]+confirm[^\\s]+"
+  },
+  "hermes_US_mail": {
+    "host": "imap.gmail.com",
+    "port": 993,
+    "ssl": true,
+    "user": "agent.us@gmail.com",
+    "pass": "gmail-app-password",
+    "folder": "INBOX",
+    "subject_filter": "Verify your email",
+    "otp_regex": "\\b\\d{6}\\b"
+  },
+  "hermes_RU_mail": {
+    "host": "imap.mail.ru",
+    "port": 993,
+    "ssl": true,
+    "user": "agent_ru@mail.ru",
+    "pass": "app-pass",
+    "folder": "INBOX"
+  },
+  "smtp_warmup": {
+    "host": "smtp.mail.ru",
+    "port": 465,
+    "ssl": true,
+    "user": "agent_ru@mail.ru",
+    "pass": "app-pass"
+  }
+}

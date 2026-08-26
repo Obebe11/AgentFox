@@ -1,0 +1,8 @@
+{
+  "_comment": "Copy to tools/benchmark/proxies.json and fill with your proxies. Never commit real credentials — proxies.json is gitignored. Format: server http://host:port + username/password + provider generic/iproyal/brightdata/... See core/proxy_pool.py for sticky sessions.",
+  "proxies": [
+    {"server": "http://proxy1.example.com:8000", "username": "user1", "password": "pass1", "provider": "generic", "geo": "US", "type": "residential"},
+    {"server": "http://proxy2.example.com:8001", "username": "user2", "password": "pass2", "provider": "generic", "geo": "DE", "type": "residential"},
+    {"server": "http://proxy3.example.com:8002", "username": "user3", "password": "pass3", "provider": "generic", "geo": "CA", "type": "residential"}
+  ]
+}

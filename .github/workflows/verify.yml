@@ -1,0 +1,53 @@
+name: verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 2 * * *"  # H10 nightly live check 02:00 UTC
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install (no browser binary — offline verification)
+        run: pip install -e ".[all]" zstandard
+      - name: Unit tests (61 tests, conftest isolation)
+        run: pytest -q
+      - name: Optimization verification (оригинал vs форк, 32 checks)
+        run: python -m tools.verify_optimization --json report.json
+      - name: Check report is PASS
+        run: |
+          grep -q "32/32 PASS" VERIFICATION_REPORT.md
+          cat VERIFICATION_REPORT.md
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: verification-report
+          path: |
+            VERIFICATION_REPORT.md
+            report.json
+
+  fingerprint-live:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install with browser
+        run: |
+          pip install -e ".[all]" zstandard
+          python -m camoufox fetch || true
+      - name: Live fingerprint (nightly)
+        run: python -m tools.fingerprint_check --live --profiles 2 --json fp.json || true
+      - name: Live verify (best-effort)
+        run: python -m tools.verify_optimization --live --json live.json || true

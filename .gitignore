@@ -1,0 +1,28 @@
+# secrets / runtime credentials — never commit
+anymessage.token
+*.token
+mail.json
+tools/benchmark/mail.json
+tools/benchmark/anymessage.token
+tools/benchmark/proxies.json
+profiles/
+
+# python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+dist/
+build/
+*.egg-info/
+
+# browser build artifacts
+.mozbuild/
+camoufox-*/
+firefox-*.source.tar.xz
+
+# generated reports
+VERIFICATION_REPORT.md
+report.json
+tools/benchmark/report*
+tools/benchmark/*_report.*
