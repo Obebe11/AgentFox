@@ -18,8 +18,8 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install (no browser binary — offline verification)
-        run: pip install -e ".[all]" zstandard
-      - name: Unit tests (61 tests, conftest isolation)
+        run: pip install -e ".[all]" zstandard pytest
+      - name: Unit tests (95 tests, conftest isolation)
         run: pytest -q
       - name: Optimization verification (оригинал vs форк, 32 checks)
         run: python -m tools.verify_optimization --json report.json
