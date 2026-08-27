@@ -77,15 +77,13 @@ class ProxyConfig:
             self.username = f"{base_user}{suffix}"
 
     def _base_username(self) -> str:
-        """username без ранее добавленного суффикса (идемпотентность)."""
+        """username без ранее добавленного суффикса (идемпотентность).
+
+        Маркер отрезаем только в конце строки, иначе ломаются логины,
+        содержащие '-session-' как часть самого username.
+        """
         u = self.username or ""
-        for style in STICKY_STYLE_SUFFIX_PROVIDERS.values():
-            # грубая идемпотентность: отрезаем известные маркеры
-            for marker in ("-session-", "-sesssid-"):
-                idx = u.find(marker)
-                if idx != -1:
-                    return u[:idx]
-        return u
+        return re.sub(r"-(?:session|sesssid)-[0-9a-fA-F]{8,}$", "", u)
 
     def to_dict(self, redact: bool = True) -> dict:
         d = asdict(self)
